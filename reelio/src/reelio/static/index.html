@@ -47,7 +47,9 @@
     <div class="reseaux" id="reseaux"></div>
     <div class="ligne">
       <button id="go">Générer</button>
-      <label><input type="checkbox" id="reel" style="width:auto;accent-color:var(--rose)"> Créer aussi un reel vidéo</label>
+      <label><input type="checkbox" id="reel" style="width:auto;accent-color:var(--rose)"> Reel vidéo</label>
+      <label><input type="checkbox" id="voix" style="width:auto;accent-color:var(--rose)"> Voix off</label>
+      <label><input type="checkbox" id="musique" style="width:auto;accent-color:var(--rose)"> Musique</label>
     </div>
   </div>
 
@@ -75,7 +77,10 @@ async function charger() {
       <input value="${p.hashtags}" style="margin-top:8px" aria-label="Hashtags">
       <div class="pied">
         <button class="sec" onclick="sauver(${p.id}, this)">Enregistrer</button>
-        <button onclick="exporter(${p.id})">Exporter</button>
+        <button class="sec" onclick="exporter(${p.id})">Exporter</button>
+        <input type="datetime-local" style="width:auto" id="q${p.id}" aria-label="Programmer">
+        <button class="sec" onclick="programmer(${p.id})">Programmer</button>
+        <button onclick="publier(${p.id})">Publier</button>
       </div>
     </div>`).join("") || "<p class='slogan'>Aucune publication pour l'instant.</p>";
 }
@@ -90,12 +95,23 @@ async function exporter(id) {
   alert(r.erreur || "Exporté dans : " + r.dossier);
   charger();
 }
+async function publier(id) {
+  const r = await api(`/api/posts/${id}/publish`, {});
+  alert(r.erreur || r.message);
+  charger();
+}
+async function programmer(id) {
+  const v = document.getElementById("q" + id).value.replace("T", " ");
+  const r = await api(`/api/posts/${id}/schedule`, {quand: v});
+  alert(r.erreur || "Programmée. Laissez Reelio ouvert à cette heure-là.");
+  charger();
+}
 $("#go").onclick = async () => {
   const idee = $("#idee").value.trim();
   if (!idee) return;
   const b = $("#go"); b.disabled = true; b.textContent = "Création…";
   const reseaux = [...document.querySelectorAll("#reseaux input:checked")].map(i => i.value);
-  const r = await api("/api/generate", {idee, reseaux, reel:$("#reel").checked});
+  const r = await api("/api/generate", {idee, reseaux, reel:$("#reel").checked, voix:$("#voix").checked, musique:$("#musique").checked});
   const a = $("#alerte");
   a.style.display = (r.avertissement || r.erreur) ? "block" : "none";
   a.textContent = r.avertissement || r.erreur || "";

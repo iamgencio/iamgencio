@@ -1,10 +1,11 @@
 """Interface web locale (aucune dépendance) : http://127.0.0.1:8765"""
 import json
+import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib import resources
 
-from . import config, copywriter, publisher, reel, store
+from . import config, connectors, copywriter, pipeline, publisher, store
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -43,14 +44,9 @@ class Handler(BaseHTTPRequestHandler):
                 idea = str(data.get("idee", "")).strip()
                 if not idea:
                     return self._json({"erreur": "Écrivez d'abord une idée."}, 400)
-                reel_path = ""
-                if data.get("reel"):
-                    reel_path = str(reel.make_reel(
-                        reel.script_from_idea(idea), config.REELS_DIR / f"reel-{int(time.time())}.mp4"))
-                posts, warning = copywriter.generate(idea, data.get("reseaux"))
-                ids = [store.add_post(idea, n, p.text, p.hashtags, p.title, reel_path)
-                       for n, p in posts.items()]
-                self._json({"ids": ids, "avertissement": warning})
+                ids, warnings = pipeline.create(idea, data.get("reseaux"), bool(data.get("reel") or data.get("voix") or data.get("musique")),
+                                                bool(data.get("voix")), bool(data.get("musique")))
+                self._json({"ids": ids, "avertissement": " ".join(warnings) or None})
             elif self.path.startswith("/api/posts/") and self.path.endswith("/update"):
                 pid = int(self.path.split("/")[3])
                 store.update_post(pid, **data)
@@ -58,14 +54,30 @@ class Handler(BaseHTTPRequestHandler):
             elif self.path.startswith("/api/posts/") and self.path.endswith("/export"):
                 pid = int(self.path.split("/")[3])
                 self._json({"dossier": str(publisher.export_post(pid))})
+            elif self.path.startswith("/api/posts/") and self.path.endswith("/publish"):
+                pid = int(self.path.split("/")[3])
+                self._json({"message": publisher.publish_post(pid)})
+            elif self.path.startswith("/api/posts/") and self.path.endswith("/schedule"):
+                pid = int(self.path.split("/")[3])
+                publisher.schedule(pid, str(data.get("quand", "")))
+                self._json({"ok": True})
             else:
                 self._send(404, b"{}")
-        except (ValueError, KeyError, RuntimeError) as e:
+        except (ValueError, KeyError, RuntimeError, connectors.PublishError) as e:
             self._json({"erreur": str(e)}, 400)
 
 
 def run(port: int = 8765) -> None:
     config.ensure_dirs()
+    def tick() -> None:  # publie à l'heure les publications programmées
+        while True:
+            try:
+                publisher.run_due()
+            except Exception as e:  # le serveur ne doit jamais s'arrêter à cause d'un réseau
+                print(f"Agent : {e}")
+            time.sleep(60)
+
+    threading.Thread(target=tick, daemon=True).start()
     server = ThreadingHTTPServer(("127.0.0.1", port), Handler)  # local uniquement
     print(f"Reelio — http://127.0.0.1:{port}  (Ctrl+C pour arrêter)")
     try:

@@ -1,6 +1,6 @@
 [project]
 name = "reelio"
-version = "0.1.0"
+version = "0.2.0"
 description = "Agent IA local de community management : textes, hashtags et reels pour Facebook, Instagram, X, YouTube et TikTok."
 requires-python = ">=3.10"
 dependencies = ["Pillow>=10"]
