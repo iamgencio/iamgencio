@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 256" width="760" height="256" role="img" aria-label="Reelio">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#FF4D8D"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="256" fill="#FFFFFF"/>
+  <g transform="translate(40 0)">
+    <rect width="256" height="256" rx="58" fill="url(#g)"/>
+    <circle cx="128" cy="128" r="78" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="10"/>
+    <path d="M108 90 L176 128 L108 166 Z" fill="#fff" stroke="#fff" stroke-width="12" stroke-linejoin="round"/>
+    <path d="M196 36 L203 58 L225 65 L203 72 L196 94 L189 72 L167 65 L189 58 Z" fill="#2DFFB3"/>
+  </g>
+  <text x="330" y="160" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="112" font-weight="700" letter-spacing="-3" fill="#0B0B12">Reelio</text>
+</svg>
