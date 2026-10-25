@@ -1,0 +1,16 @@
+[project]
+name = "reelio"
+version = "0.1.0"
+description = "Agent IA local de community management : textes, hashtags et reels pour Facebook, Instagram, X, YouTube et TikTok."
+requires-python = ">=3.10"
+dependencies = ["Pillow>=10"]
+
+[project.scripts]
+reelio = "reelio.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+reelio = ["static/*"]

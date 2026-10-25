@@ -5,6 +5,7 @@
 ## Positionnement
 - **Promesse :** une idée en entrée, des publications prêtes sur tous les réseaux en sortie.
 - **Slogan :** *Une idée. Cinq réseaux.* (alternative : *Publie partout, sans effort.*)
+- **Univers :** community management, création, applications mobiles, sites web. Chaleureux et coloré, mais pro et sobre.
 - **Ton de voix :** direct, énergique, simple. Phrases courtes. Pas de jargon technique.
 
 ## Logo
@@ -22,6 +23,7 @@
 | Primaire | Violet électrique | `#7C5CFF` |
 | Secondaire | Rose vif | `#FF4D8D` |
 | Accent IA | Menthe | `#2DFFB3` |
+| Accent chaleureux | Ambre | `#FFB547` |
 | Texte | Blanc cassé | `#F5F5FA` |
 | Texte atténué | Gris brume | `#9A9AB0` |
 

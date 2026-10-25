@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reelio</title>
+<style>
+  :root { --nuit:#0B0B12; --ardoise:#14141F; --violet:#7C5CFF; --rose:#FF4D8D; --menthe:#2DFFB3;
+          --ambre:#FFB547; --texte:#F5F5FA; --brume:#9A9AB0; --bord:rgba(255,255,255,.08); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--nuit); color:var(--texte);
+         font:16px/1.5 Inter,"Segoe UI",Helvetica,Arial,sans-serif; }
+  main { max-width:980px; margin:0 auto; padding:32px 16px 64px; }
+  header { display:flex; align-items:center; gap:14px; margin-bottom:28px; }
+  .logo { width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,var(--violet),var(--rose));
+          display:grid; place-items:center; font-size:20px; }
+  h1 { margin:0; font-size:28px; letter-spacing:-.03em; }
+  .slogan { color:var(--brume); font-size:14px; }
+  .carte { background:var(--ardoise); border:1px solid var(--bord); border-radius:20px; padding:20px; margin-bottom:16px; }
+  textarea, input { width:100%; background:var(--nuit); color:var(--texte); border:1px solid var(--bord);
+          border-radius:12px; padding:12px; font:inherit; }
+  textarea:focus { outline:2px solid var(--violet); }
+  .reseaux { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; }
+  .reseaux label { background:var(--nuit); border:1px solid var(--bord); border-radius:999px; padding:6px 14px; cursor:pointer; font-size:14px; }
+  .reseaux input { width:auto; margin-right:6px; accent-color:var(--violet); }
+  button { border:0; border-radius:12px; padding:11px 20px; font:inherit; font-weight:600; color:#fff; cursor:pointer;
+           background:linear-gradient(135deg,var(--violet),var(--rose)); }
+  button.sec { background:transparent; border:1px solid var(--bord); color:var(--texte); }
+  button:disabled { opacity:.5; cursor:wait; }
+  .ligne { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .alerte { background:rgba(255,181,71,.1); border:1px solid var(--ambre); color:var(--ambre); border-radius:12px; padding:10px 14px; margin-bottom:16px; display:none; }
+  .badge { font-size:12px; padding:3px 10px; border-radius:999px; background:rgba(45,255,179,.12); color:var(--menthe); }
+  .titre-carte { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-weight:600; }
+  .pied { margin-top:10px; display:flex; gap:8px; }
+  h2 { font-size:18px; margin:28px 0 12px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo">▶</div>
+    <div><h1>Reelio</h1><div class="slogan">Une idée. Cinq réseaux.</div></div>
+  </header>
+
+  <div class="carte">
+    <textarea id="idee" rows="3" placeholder="Votre idée de publication… ex. : 3 erreurs à éviter pour la page Facebook d'un commerce local"></textarea>
+    <div class="reseaux" id="reseaux"></div>
+    <div class="ligne">
+      <button id="go">Générer</button>
+      <label><input type="checkbox" id="reel" style="width:auto;accent-color:var(--rose)"> Créer aussi un reel vidéo</label>
+    </div>
+  </div>
+
+  <div class="alerte" id="alerte"></div>
+  <h2>Publications</h2>
+  <div id="posts"></div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const api = (url, body) => fetch(url, body ? {method:"POST", body:JSON.stringify(body)} : {}).then(r => r.json());
+
+async function init() {
+  const nets = await api("/api/networks");
+  $("#reseaux").innerHTML = Object.entries(nets).map(([k,v]) =>
+    `<label><input type="checkbox" value="${k}" checked>${v}</label>`).join("");
+  charger();
+}
+
+async function charger() {
+  const posts = await api("/api/posts");
+  $("#posts").innerHTML = posts.map(p => `
+    <div class="carte" data-id="${p.id}">
+      <div class="titre-carte"><span>${p.network} · #${p.id}</span><span class="badge">${p.status}</span></div>
+      <textarea rows="5">${p.text.replace(/</g,"&lt;")}</textarea>
+      <input value="${p.hashtags}" style="margin-top:8px" aria-label="Hashtags">
+      <div class="pied">
+        <button class="sec" onclick="sauver(${p.id}, this)">Enregistrer</button>
+        <button onclick="exporter(${p.id})">Exporter</button>
+      </div>
+    </div>`).join("") || "<p class='slogan'>Aucune publication pour l'instant.</p>";
+}
+
+async function sauver(id, btn) {
+  const c = btn.closest(".carte");
+  await api(`/api/posts/${id}/update`, {text:c.querySelector("textarea").value, hashtags:c.querySelector("input").value, status:"approuve"});
+  charger();
+}
+async function exporter(id) {
+  const r = await api(`/api/posts/${id}/export`, {});
+  alert(r.erreur || "Exporté dans : " + r.dossier);
+  charger();
+}
+$("#go").onclick = async () => {
+  const idee = $("#idee").value.trim();
+  if (!idee) return;
+  const b = $("#go"); b.disabled = true; b.textContent = "Création…";
+  const reseaux = [...document.querySelectorAll("#reseaux input:checked")].map(i => i.value);
+  const r = await api("/api/generate", {idee, reseaux, reel:$("#reel").checked});
+  const a = $("#alerte");
+  a.style.display = (r.avertissement || r.erreur) ? "block" : "none";
+  a.textContent = r.avertissement || r.erreur || "";
+  b.disabled = false; b.textContent = "Générer";
+  charger();
+};
+init();
+</script>
+</body>
+</html>
