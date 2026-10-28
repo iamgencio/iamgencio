@@ -1,0 +1,16 @@
+# Environnement local : MySQL + API PHP. Le front se lance avec `npm run dev` dans web/.
+services:
+  db:
+    image: mysql:8.0
+    environment: { MYSQL_DATABASE: nyota, MYSQL_USER: nyota, MYSQL_PASSWORD: nyota, MYSQL_ROOT_PASSWORD: root }
+    ports: ["3306:3306"]
+    volumes: [dbdata:/var/lib/mysql]
+  api:
+    image: php:8.3-cli
+    working_dir: /app
+    command: sh -c "docker-php-ext-install pdo_mysql >/dev/null && php bin/migrate.php --seed; php -S 0.0.0.0:8080 -t public public/index.php"
+    environment: { APP_ENV: local, APP_SECRET: dev-secret, APP_URL: "http://localhost:8080", WEB_ORIGIN: "http://localhost:3000", DB_HOST: db, DB_NAME: nyota, DB_USER: nyota, DB_PASS: nyota, FEEXPAY_MODE: mock }
+    volumes: [./api:/app]
+    ports: ["8080:8080"]
+    depends_on: [db]
+volumes: { dbdata: {} }
