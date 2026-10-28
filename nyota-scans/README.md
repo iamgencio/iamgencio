@@ -5,6 +5,16 @@
 **Le Netflix des mangas et des BD africaines** — une plateforme éditée et lancée par **Starlight Network**.
 *Chaque histoire est une étoile.* (Nyota = « étoile » en swahili.)
 
+## Aperçus
+| | |
+|---|---|
+| ![Accueil](docs/screenshots/01-accueil.png) | ![Catalogue](docs/screenshots/02-catalogue.png) |
+| ![Fiche série](docs/screenshots/03-serie.png) | ![Lecteur](docs/screenshots/04-lecteur.png) |
+| ![Premium & Mobile Money](docs/screenshots/05-premium-paiement.png) | ![Bibliothèque](docs/screenshots/06-bibliotheque.png) |
+| ![Espace créateur](docs/screenshots/07-espace-createur.png) | ![Admin](docs/screenshots/08-admin.png) |
+
+<p align="center"><img src="docs/screenshots/09-mobile-accueil.png" alt="Mobile" width="260"></p>
+
 ## Fonctionnalités (MVP)
 - Accueil façon streaming : vedette + rangées (tendances, BD africaines, nouveautés, mangas, manhwas)
 - Catalogue avec recherche, filtres (type, genre) et tri
