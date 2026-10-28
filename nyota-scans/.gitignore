@@ -1,6 +1,0 @@
-.env
-api/.env
-api/storage/uploads/*
-!api/storage/uploads/.gitkeep
-node_modules/
-.next/
