@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: { default: 'Nyota Scans — Mangas & BD africaines en streaming', template: '%s · Nyota Scans' },
   description: "Le Netflix des scans : lisez mangas, manhwas et BD africaines légalement, par Starlight Network.",
   icons: { icon: '/icon.svg' },
+  openGraph: { title: 'Nyota Scans', description: 'Le Netflix des mangas et BD africaines', images: ['/og.png'], type: 'website', locale: 'fr_FR' },
+  twitter: { card: 'summary_large_image', images: ['/og.png'] },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
