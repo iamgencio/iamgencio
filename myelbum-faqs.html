@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Questions fréquentes – MyElbum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --bar: #3a3835;
+    --ink: #1f2937;
+    --muted: #5b6470;
+    --card: #f8fafc;
+    --link: #2563eb;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Roboto", system-ui, sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:
+      linear-gradient(rgba(40,38,35,.55), rgba(40,38,35,.55)),
+      radial-gradient(ellipse at 30% 20%, #cfc8bd 0%, #9a9288 45%, #5f5951 100%);
+    background-attachment: fixed;
+  }
+
+  /* Barre du haut */
+  .topbar {
+    background: var(--bar);
+    height: 48px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--white);
+    display: grid; place-items: center;
+  }
+  .logo svg { width: 20px; height: 20px; }
+  .menu { width: 22px; height: 22px; color: #e5e7eb; background: none; border: 0; cursor: pointer; }
+
+  /* Contenu */
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 16px 40px;
+  }
+  .panel {
+    background: rgba(255,255,255,.12);
+    border-radius: 10px;
+    padding: 22px 18px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.18);
+    backdrop-filter: blur(2px);
+  }
+  h1 {
+    color: var(--white);
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 18px;
+    text-shadow: 0 1px 3px rgba(0,0,0,.35);
+  }
+  details {
+    background: var(--card);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    overflow: hidden;
+  }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: .9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "";
+    flex: none;
+    width: 8px; height: 8px;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg);
+    transition: transform .2s;
+    margin-top: -3px;
+  }
+  details[open] summary::after { transform: rotate(-135deg); margin-top: 3px; }
+  summary:focus-visible { outline: 2px solid var(--link); outline-offset: -2px; }
+  .answer {
+    padding: 0 16px 14px;
+    font-size: .8rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .answer ul { padding-left: 18px; }
+  .answer ul ul { margin-top: 2px; list-style: none; padding-left: 14px; }
+  .answer li { margin-bottom: 2px; }
+  .answer p + p { margin-top: 8px; }
+  .answer a { color: var(--link); text-decoration: none; }
+  .answer a:hover { text-decoration: underline; }
+
+  /* Pied de page */
+  footer {
+    background: rgba(40,38,35,.55);
+    padding: 14px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 22px;
+  }
+  footer a { color: #f3f4f6; font-size: .7rem; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="/" aria-label="Accueil MyElbum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2v2h-2z"/></svg>
+  </a>
+  <button class="menu" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 14h10"/></svg>
+  </button>
+</header>
+
+<main>
+  <section class="panel">
+    <h1>Questions fréquentes – MyElbum</h1>
+
+    <details>
+      <summary>Qu’est-ce que MyElbum ?</summary>
+      <div class="answer">
+        <p>MyElbum est une application d’albums photo et vidéo numériques qui vous aide à conserver, organiser et partager vos souvenirs en toute sécurité avec vos proches : famille, amis et personnes de confiance.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>MyElbum est-il gratuit ?</summary>
+      <div class="answer">
+        <p>Oui ! Le forfait Gratuit vous permet de téléverser jusqu’à 5 photos (7 Mo maximum chacune) au format A4, avec filigrane. Le contenu gratuit expire au bout de 30 jours.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Quels formats de fichiers sont pris en charge ?</summary>
+      <div class="answer">
+        <ul>
+          <li>Photos : JPG, JPEG, PNG (7 Mo maximum)</li>
+          <li>Vidéos : MP4, AVI, MKV (50 Mo maximum)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Quelle est la différence entre Gratuit et Premium ?</summary>
+      <div class="answer">
+        <ul>
+          <li>Forfait Gratuit :
+            <ul>
+              <li>5 photos</li>
+              <li>Filigrane</li>
+              <li>Expiration au bout de 30 jours</li>
+            </ul>
+          </li>
+          <li>Forfaits Premium (Lite ou All-Go) :
+            <ul>
+              <li>Jusqu’à 64 contenus</li>
+              <li>Sans filigrane</li>
+              <li>Glisser-déposer pour réorganiser</li>
+              <li>Conservation plus longue</li>
+              <li>Impression en haute résolution</li>
+              <li>Durées au choix : 18 mois ou 3 ans</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Comment imprimer mes souvenirs ?</summary>
+      <div class="answer">
+        <p>Une fois votre Cadre créé, vous pouvez choisir de l’imprimer directement depuis l’application. L’impression inclut vos photos comme vos vidéos, et vous pouvez continuer à enrichir votre Cadre même après l’avoir imprimé.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Comment choisir qui peut voir mes souvenirs ?</summary>
+      <div class="answer">
+        <p>C’est vous qui décidez. Dans les paramètres de confidentialité de votre Cadre, vous pouvez désigner précisément les personnes autorisées à accéder à vos souvenirs.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Comment partager mes souvenirs avec mes proches ?</summary>
+      <div class="answer">
+        <p>Vous pouvez identifier (« taguer ») vos proches sur un Cadre, une photo ou une vidéo. Ils y accèdent alors de façon permanente depuis leur compte, dans l’onglet « Mes tags ».</p>
+        <p>Vous pouvez aussi envoyer le lien d’un Cadre, d’une photo ou d’une vidéo par WhatsApp ou sur toute autre plateforme de votre choix.</p>
+        <p>À noter : si vous désactivez le partage du Cadre dans ses paramètres de confidentialité, le lien ne permettra plus d’accéder à vos souvenirs.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Revendez-vous mes données ?</summary>
+      <div class="answer">
+        <p>Non, jamais. Vos données sont privées et en sécurité chez nous : nous ne les vendons pas et ne les transmettons pas à des tiers.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>En quoi MyElbum est-il différent des réseaux sociaux ?</summary>
+      <div class="answer">
+        <p>Contrairement aux plateformes publiques, MyElbum se consacre à la préservation de vos souvenirs et au partage privé. Ici, ce sont les vraies relations qui comptent, pas l’exposition publique ni les « j’aime ».</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Comment contacter le support ?</summary>
+      <div class="answer">
+        <p>Nous serons ravis de vous aider : écrivez-nous via le formulaire de contact de notre site, <a href="#contact">en cliquant ici</a>.</p>
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <a href="#">Politique de confidentialité</a>
+  <a href="#">Conditions générales</a>
+  <a href="#">Centre d’aide</a>
+  <a href="#">Facebook</a>
+  <a href="#">Twitter</a>
+  <a href="#">Instagram</a>
+  <a href="#">YouTube</a>
+</footer>
+
+</body>
+</html>
